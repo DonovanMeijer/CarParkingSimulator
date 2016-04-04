@@ -33,7 +33,12 @@ public class Simulator
 
     public void run()
     {
-        for (int i = 0; i < 10000; i++)
+        run(10000);
+    }
+
+    public void run(int steps)
+    {
+        for (int i = 0; i < steps; i++)
         {
             tick();
         }
