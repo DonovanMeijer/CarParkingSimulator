@@ -1,13 +1,15 @@
-package CarParkingSimulator;
+package CarParkingSimulator.Controller;
 
-import java.util.Random;
+import CarParkingSimulator.Model.*;
 
-public class Simulator
+import java.util.*;
+
+public class SimulatorEngine
 {
     private CarQueue entranceCarQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
-    private SimulatorView simulatorView;
+    private GarageHelper garageHelper;
 
     private int day = 0;
     private int hour = 0;
@@ -22,13 +24,13 @@ public class Simulator
     int paymentSpeed = 10; // number of cars that can pay per minute
     int exitSpeed = 9; // number of cars that can leave per minute
 
-    public Simulator()
+    public SimulatorEngine(GarageHelper garageHelper)
     {
+        this.garageHelper = garageHelper;
+
         entranceCarQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
-
-        simulatorView = new SimulatorView(3, 6, 30);
     }
 
     public void run()
@@ -95,11 +97,11 @@ public class Simulator
                 break;
             }
             // Find a space for this car.
-            Location freeLocation = simulatorView.getFirstFreeLocation();
+            Location freeLocation = garageHelper.getFirstFreeLocation();
 
             if (freeLocation != null)
             {
-                simulatorView.setCarAt(freeLocation, car);
+                garageHelper.setCarAt(freeLocation, car);
 
                 int stayMinutes = (int) (15 + random.nextFloat() * 10 * 60);
 
@@ -108,12 +110,12 @@ public class Simulator
         }
 
         // Perform car park tick.
-        simulatorView.tick();
+        garageHelper.tick();
 
         // Add leaving cars to the exit queue.
         while (true)
         {
-            Car car = simulatorView.getFirstLeavingCar();
+            Car car = garageHelper.getFirstLeavingCar();
 
             if (car == null)
             {
@@ -136,7 +138,7 @@ public class Simulator
             }
 
             // TODO Handle payment.
-            simulatorView.removeCarAt(car.getLocation());
+            garageHelper.removeCarAt(car.getLocation());
 
             exitCarQueue.addCar(car);
         }
@@ -154,7 +156,10 @@ public class Simulator
         }
 
         // Update the car park view.
-        simulatorView.updateView();
+        for (UpdateListener listener : eventListeners)
+        {
+            listener.DataUpdated();
+        }
 
         // Pause.
         try
@@ -165,5 +170,17 @@ public class Simulator
         {
             e.printStackTrace();
         }
+    }
+
+    private List<UpdateListener> eventListeners = new ArrayList<UpdateListener>();
+
+    public void addListener(UpdateListener listenerToAdd)
+    {
+        eventListeners.add(listenerToAdd);
+    }
+
+    public interface UpdateListener
+    {
+        void DataUpdated();
     }
 }

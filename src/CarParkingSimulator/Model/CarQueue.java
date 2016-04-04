@@ -1,4 +1,4 @@
-package CarParkingSimulator;
+package CarParkingSimulator.Model;
 
 import java.util.LinkedList;
 import java.util.Queue;

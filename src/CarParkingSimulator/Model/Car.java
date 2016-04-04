@@ -1,4 +1,4 @@
-package CarParkingSimulator;
+package CarParkingSimulator.Model;
 
 public abstract class Car
 {

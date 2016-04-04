@@ -1,11 +1,12 @@
 package CarParkingSimulator;
 
+import CarParkingSimulator.Controller.SimulatorEngine;
+import CarParkingSimulator.View.SimulatorWindow;
+
 public class Main
 {
     public static void main(String[] args)
     {
-        Simulator i = new Simulator();
-
-        i.run();
+        SimulatorWindow simulatorView = new SimulatorWindow(3, 6, 30);
     }
 }

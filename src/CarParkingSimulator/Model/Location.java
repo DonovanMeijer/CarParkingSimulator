@@ -1,4 +1,4 @@
-package CarParkingSimulator;
+package CarParkingSimulator.Model;
 
 /**
  * Created by John on 29/03/16.
