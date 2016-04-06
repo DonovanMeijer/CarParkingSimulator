@@ -2,9 +2,9 @@ package CarParkingSimulator.Model;
 
 public abstract class Car
 {
-
     private Location location;
     private int minutesLeft;
+    private int totalTime;
     private boolean isPaying;
 
     /**
@@ -45,9 +45,12 @@ public abstract class Car
         this.isPaying = isPaying;
     }
 
+    public int getTotalTime() { return totalTime; }
+
     public void tick()
     {
         minutesLeft--;
+        totalTime++;
     }
 
 }

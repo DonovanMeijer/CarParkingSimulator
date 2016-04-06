@@ -9,6 +9,7 @@ public class Location
     private int floor;
     private int row;
     private int place;
+    private boolean isReserved;
 
     /**
      * Constructor for objects of class Location
@@ -79,5 +80,15 @@ public class Location
     public int getPlace()
     {
         return place;
+    }
+
+    /**
+     * @return Reservation
+     */
+    public boolean getReservation() { return isReserved; }
+
+    public void setReservation(boolean value)
+    {
+        isReserved = value;
     }
 }

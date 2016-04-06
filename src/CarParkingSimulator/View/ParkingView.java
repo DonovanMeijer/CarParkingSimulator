@@ -77,9 +77,16 @@ public class ParkingView extends JPanel
 
                     Car car = garageHelper.getCarAt(location);
 
-                    Color color = car == null ? Color.white : Color.red;
+                    //if a spot is reserved change the color to blue instead of red
+                    Color color1 = car == null ? Color.white : Color.red;
+                    Color color2 = Color.blue;
 
-                    drawPlace(graphics, location, color);
+                    boolean test = location.getReservation();
+
+                    if(!location.getReservation())
+                        drawPlace(graphics, location, color1);
+                    else
+                        drawPlace(graphics, location, color2);
                 }
             }
         }

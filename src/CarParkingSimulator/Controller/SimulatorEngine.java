@@ -1,6 +1,7 @@
 package CarParkingSimulator.Controller;
 
 import CarParkingSimulator.Model.*;
+import CarParkingSimulator.View.GraphView;
 
 import java.util.*;
 
@@ -38,9 +39,12 @@ public class SimulatorEngine
     int paymentSpeed = 10; // number of cars that can pay per minute
     int exitSpeed = 9; // number of cars that can leave per minute
 
+    private Finance finance;
+
     public SimulatorEngine(GarageHelper garageHelper)
     {
         this.garageHelper = garageHelper;
+        this.finance = new Finance();
 
         currentState = SimulatorState.NotActive;
 
@@ -201,6 +205,9 @@ public class SimulatorEngine
             }
 
             // TODO Handle payment.
+            finance.pay(car.getTotalTime());
+            System.out.println(finance.dailyRevenue());
+
             garageHelper.removeCarAt(car.getLocation());
 
             exitCarQueue.addCar(car);

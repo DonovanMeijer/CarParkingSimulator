@@ -43,7 +43,6 @@ public class GarageHelper
         {
             return null;
         }
-
         return cars[location.getFloor()][location.getRow()][location.getPlace()];
     }
 
@@ -159,8 +158,9 @@ public class GarageHelper
         int floor = location.getFloor();
         int row = location.getRow();
         int place = location.getPlace();
+        boolean reserved = location.getReservation();
 
-        if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces)
+        if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces || reserved)
         {
             return false;
         }
