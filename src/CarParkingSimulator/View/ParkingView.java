@@ -1,8 +1,7 @@
 package CarParkingSimulator.View;
 
 import CarParkingSimulator.Controller.GarageHelper;
-import CarParkingSimulator.Model.Car;
-import CarParkingSimulator.Model.Location;
+import CarParkingSimulator.Model.*;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,6 @@
 package CarParkingSimulator.Model;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by John on 29/03/16.

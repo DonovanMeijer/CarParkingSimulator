@@ -1,7 +1,6 @@
 package CarParkingSimulator.Controller;
 
-import CarParkingSimulator.Model.Car;
-import CarParkingSimulator.Model.Location;
+import CarParkingSimulator.Model.*;
 
 /**
  * Created by John on 04/04/16.

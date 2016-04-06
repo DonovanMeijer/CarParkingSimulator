@@ -6,6 +6,14 @@ import java.util.*;
 
 public class SimulatorEngine
 {
+    public enum SimulatorState
+    {
+        NotActive,
+        Running,
+        Paused,
+        Finished
+    }
+
     private CarQueue entranceCarQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
@@ -15,7 +23,13 @@ public class SimulatorEngine
     private int hour = 0;
     private int minute = 0;
 
-    private int tickPause = 100;
+    private Timer timer;
+    private TimerTask simulationTask;
+
+    private int currentStep = 0;
+
+    private SimulatorState currentState;
+
 
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
@@ -28,26 +42,74 @@ public class SimulatorEngine
     {
         this.garageHelper = garageHelper;
 
+        currentState = SimulatorState.NotActive;
+
         entranceCarQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
+
+        timer = new Timer();
+        simulationTask = new SimulationTask();
     }
 
-    public void run()
+    public void runSimulation(int steps)
     {
-        run(10000);
+        runSimulation(steps, 100);
     }
 
-    public void run(int steps)
+    public void runSimulation(int steps, int tickPause)
     {
-        for (int i = 0; i < steps; i++)
+        SimulationTask task = (SimulationTask)simulationTask;
+
+        if (task.isRunning)
         {
+            System.out.println("t");
+            task.cancelTask();
+        }
+
+        timer = new Timer();
+
+        task = new SimulationTask();
+
+        task.currentStep = 0;
+        task.steps = steps;
+
+        timer.scheduleAtFixedRate(task, 0, tickPause);
+    }
+
+    public class SimulationTask extends TimerTask
+    {
+        public boolean isRunning = false;
+
+        public int currentStep = 0;
+        public int steps = 0;
+
+        public void run()
+        {
+            isRunning = true;
+
             tick();
+
+            currentStep += 1;
+
+            if(currentStep >= steps)
+            {
+                cancelTask();
+            }
+        }
+
+        public void cancelTask()
+        {
+            timer.cancel();
+
+            isRunning = false;
         }
     }
 
     private void tick()
     {
+        currentStep += 1;
+
         // Advance the time by one minute.
         minute++;
 
@@ -96,6 +158,7 @@ public class SimulatorEngine
             {
                 break;
             }
+
             // Find a space for this car.
             Location freeLocation = garageHelper.getFirstFreeLocation();
 
@@ -158,17 +221,7 @@ public class SimulatorEngine
         // Update the car park view.
         for (UpdateListener listener : eventListeners)
         {
-            listener.DataUpdated();
-        }
-
-        // Pause.
-        try
-        {
-            Thread.sleep(tickPause);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
+            listener.DataUpdated(currentStep);
         }
     }
 
@@ -181,6 +234,6 @@ public class SimulatorEngine
 
     public interface UpdateListener
     {
-        void DataUpdated();
+        void DataUpdated(int currentStep);
     }
 }
