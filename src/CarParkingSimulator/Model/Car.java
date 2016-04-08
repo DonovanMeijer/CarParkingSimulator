@@ -45,7 +45,10 @@ public abstract class Car
         this.isPaying = isPaying;
     }
 
-    public int getTotalTime() { return totalTime; }
+    public int getTotalTime()
+    {
+        return totalTime;
+    }
 
     public void tick()
     {

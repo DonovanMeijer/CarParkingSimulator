@@ -1,12 +1,20 @@
 package CarParkingSimulator.Controller;
 
 import CarParkingSimulator.Model.*;
-import CarParkingSimulator.View.GraphView;
 
 import java.util.*;
 
 public class SimulatorEngine
 {
+    private Garage garage;
+
+    private Timer timer;
+    private SimulationTimerTask simulationTimerTask;
+
+    private SimulatorState currentState;
+
+    private int currentStep = 0;
+
     public enum SimulatorState
     {
         NotActive,
@@ -15,22 +23,46 @@ public class SimulatorEngine
         Finished
     }
 
+    private class SimulationTimerTask extends TimerTask
+    {
+        private int currentStep = 0;
+        private int steps = 0;
+
+        public void setAmountOfSteps(int amountOfSteps)
+        {
+            steps = amountOfSteps;
+        }
+
+        public void run()
+        {
+            tick();
+
+            if (steps != -1)
+            {
+                currentStep += 1;
+
+                if(currentStep >= steps)
+                {
+                    cancelTask();
+                }
+            }
+        }
+
+        public void cancelTask()
+        {
+            timer.cancel();
+        }
+    }
+
+    private Random randomNumberGenerator;
+
     private CarQueue entranceCarQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
-    private GarageHelper garageHelper;
 
     private int day = 0;
     private int hour = 0;
     private int minute = 0;
-
-    private Timer timer;
-    private TimerTask simulationTask;
-
-    private int currentStep = 0;
-
-    private SimulatorState currentState;
-
 
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
@@ -39,81 +71,44 @@ public class SimulatorEngine
     int paymentSpeed = 10; // number of cars that can pay per minute
     int exitSpeed = 9; // number of cars that can leave per minute
 
-    private Finance finance;
-
-    public SimulatorEngine(GarageHelper garageHelper)
+    public SimulatorEngine(Garage garage)
     {
-        this.garageHelper = garageHelper;
-        this.finance = new Finance();
+        this.garage = garage;
 
         currentState = SimulatorState.NotActive;
+
+        randomNumberGenerator = new Random();
 
         entranceCarQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
 
         timer = new Timer();
-        simulationTask = new SimulationTask();
+        simulationTimerTask = new SimulationTimerTask();
     }
 
     public void runSimulation(int steps)
     {
-        runSimulation(steps, 100);
+        runSimulation(steps, 1);
     }
 
     public void runSimulation(int steps, int tickPause)
     {
-        SimulationTask task = (SimulationTask)simulationTask;
-
-        if (task.isRunning)
+        if(simulationTimerTask != null)
         {
-            System.out.println("t");
-            task.cancelTask();
+            simulationTimerTask.cancelTask();
         }
 
         timer = new Timer();
+        simulationTimerTask = new SimulationTimerTask();
 
-        task = new SimulationTask();
+        simulationTimerTask.setAmountOfSteps(steps);
 
-        task.currentStep = 0;
-        task.steps = steps;
-
-        timer.scheduleAtFixedRate(task, 0, tickPause);
+        timer.scheduleAtFixedRate(simulationTimerTask, 0, tickPause);
     }
 
-    public class SimulationTask extends TimerTask
+    private void incrementTime()
     {
-        public boolean isRunning = false;
-
-        public int currentStep = 0;
-        public int steps = 0;
-
-        public void run()
-        {
-            isRunning = true;
-
-            tick();
-
-            currentStep += 1;
-
-            if(currentStep >= steps)
-            {
-                cancelTask();
-            }
-        }
-
-        public void cancelTask()
-        {
-            timer.cancel();
-
-            isRunning = false;
-        }
-    }
-
-    private void tick()
-    {
-        currentStep += 1;
-
         // Advance the time by one minute.
         minute++;
 
@@ -133,15 +128,16 @@ public class SimulatorEngine
         {
             day -= 7;
         }
+    }
 
-        Random random = new Random();
-
+    private void generateVisitors()
+    {
         // Get the average number of cars that arrive per hour.
         int averageNumberOfCarsPerHour = day < 5 ? weekDayArrivals : weekendArrivals;
 
         // Calculate the number of cars that arrive this minute.
         double standardDeviation = averageNumberOfCarsPerHour * 0.1;
-        double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
+        double numberOfCarsPerHour = averageNumberOfCarsPerHour + randomNumberGenerator.nextGaussian() * standardDeviation;
 
         int numberOfCarsPerMinute = (int)Math.round(numberOfCarsPerHour / 60);
 
@@ -152,6 +148,10 @@ public class SimulatorEngine
 
             entranceCarQueue.addCar(car);
         }
+    }
+
+    private void advanceEntranceQueue()
+    {
 
         // Remove car from the front of the queue and assign to a parking space.
         for (int i = 0; i < enterSpeed; i++)
@@ -164,25 +164,25 @@ public class SimulatorEngine
             }
 
             // Find a space for this car.
-            Location freeLocation = garageHelper.getFirstFreeLocation();
+            Location freeLocation = garage.getFirstFreeLocation();
 
             if (freeLocation != null)
             {
-                garageHelper.setCarAt(freeLocation, car);
+                garage.setCarAt(freeLocation, car);
 
-                int stayMinutes = (int) (15 + random.nextFloat() * 10 * 60);
+                int stayMinutes = (int) (15 + randomNumberGenerator.nextFloat() * 10 * 60);
 
                 car.setMinutesLeft(stayMinutes);
             }
         }
+    }
 
-        // Perform car park tick.
-        garageHelper.tick();
-
+    private void advancePaymentQueue()
+    {
         // Add leaving cars to the exit queue.
         while (true)
         {
-            Car car = garageHelper.getFirstLeavingCar();
+            Car car = garage.getFirstLeavingCar();
 
             if (car == null)
             {
@@ -204,15 +204,16 @@ public class SimulatorEngine
                 break;
             }
 
-            // TODO Handle payment.
-            finance.pay(car.getTotalTime());
-            System.out.println(finance.dailyRevenue());
+            garage.getFinances().pay(car.getTotalTime());
 
-            garageHelper.removeCarAt(car.getLocation());
+            garage.removeCarAt(car.getLocation());
 
             exitCarQueue.addCar(car);
         }
+    }
 
+    private void letCarsExit()
+    {
         // Let cars leave.
         for (int i = 0; i < exitSpeed; i++)
         {
@@ -224,14 +225,33 @@ public class SimulatorEngine
             }
             // Bye!
         }
+    }
 
-        // Update the car park view.
+    private void tick()
+    {
+        currentStep += 1;
+
+        incrementTime();
+
+        generateVisitors();
+
+        advanceEntranceQueue();
+
+        // Perform car park tick.
+        garage.tick();
+
+        advancePaymentQueue();
+
+        letCarsExit();
+
+        //Trigger all associated event listeners.
         for (UpdateListener listener : eventListeners)
         {
             listener.DataUpdated(currentStep);
         }
     }
 
+    //region Simulator events
     private List<UpdateListener> eventListeners = new ArrayList<UpdateListener>();
 
     public void addListener(UpdateListener listenerToAdd)
@@ -243,4 +263,5 @@ public class SimulatorEngine
     {
         void DataUpdated(int currentStep);
     }
+    //endregion
 }

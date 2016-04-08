@@ -1,6 +1,5 @@
 package CarParkingSimulator.View;
 
-import CarParkingSimulator.Controller.GarageHelper;
 import CarParkingSimulator.Model.*;
 
 import javax.swing.*;
@@ -8,7 +7,7 @@ import java.awt.*;
 
 public class ParkingView extends JPanel
 {
-    private GarageHelper garageHelper = null;
+    private Garage garage;
 
     private Dimension size;
     private Image carParkImage;
@@ -16,9 +15,9 @@ public class ParkingView extends JPanel
     /**
      * Constructor for objects of class CarPark
      */
-    public ParkingView(GarageHelper helper)
+    public ParkingView(Garage garage)
     {
-        garageHelper = helper;
+        this.garage = garage;
 
         size = new Dimension(0, 0);
     }
@@ -67,31 +66,48 @@ public class ParkingView extends JPanel
 
         Graphics graphics = carParkImage.getGraphics();
 
-        for(int floor = 0; floor < garageHelper.getNumberOfFloors(); floor++)
+        for(int floor = 0; floor < garage.getNumberOfFloors(); floor++)
         {
-            for(int row = 0; row < garageHelper.getNumberOfRows(); row++)
+            for(int row = 0; row < garage.getNumberOfRows(); row++)
             {
-                for(int place = 0; place < garageHelper.getNumberOfPlaces(); place++)
+                for(int place = 0; place < garage.getNumberOfPlaces(); place++)
                 {
                     Location location = new Location(floor, row, place);
 
-                    Car car = garageHelper.getCarAt(location);
+                    Car car = garage.getCarAt(location);
 
-                    //if a spot is reserved change the color to blue instead of red
-                    Color color1 = car == null ? Color.white : Color.red;
-                    Color color2 = Color.blue;
+                    Color color = car == null ? Color.white : Color.red;
 
-                    boolean test = location.getReservation();
-
-                    if(!location.getReservation())
-                        drawPlace(graphics, location, color1);
-                    else
-                        drawPlace(graphics, location, color2);
+                    newDrawPlace(graphics, location, color);
                 }
             }
         }
 
         repaint();
+    }
+
+    private void newDrawPlace(Graphics graphics, Location location, Color color)
+    {
+        //TODO: Add dynamic width.
+        Dimension currentSize = getSize();
+
+        graphics.setColor(color);
+
+        double places = garage.getNumberOfPlaces();
+//(1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 25
+        double x = location.getFloor() * ((1 + (int)Math.floor(garage.getNumberOfRows() * 0.5)) * 75 + (garage.getNumberOfRows() % 2) * 25) + (1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 25;
+        double y = location.getPlace() * ((double)currentSize.height / places);
+        double width = 20;
+        double height = (((double)currentSize.height / places) / 100 * 75);
+
+        graphics.fillRect((int)x, (int)y, (int)width, (int)height);
+    }
+
+    private double caliculateAspectRatio()
+    {
+        //TODO: Implement method.
+
+        return 1;
     }
 
     /**
@@ -101,6 +117,6 @@ public class ParkingView extends JPanel
     {
         graphics.setColor(color);
 
-        graphics.fillRect(location.getFloor() * 260 + (1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 20, 60 + location.getPlace() * 10, 20 - 1, 10 - 1); // TODO use dynamic size or constants
+        graphics.fillRect(location.getFloor() * 500 + (1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 20, 60 + location.getPlace() * 10, 20 - 1, 10 - 1); // TODO use dynamic size or constants
     }
 }

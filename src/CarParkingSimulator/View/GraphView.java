@@ -1,22 +1,17 @@
 package CarParkingSimulator.View;
 
-import CarParkingSimulator.Controller.GarageHelper;
-import CarParkingSimulator.Model.Car;
-import CarParkingSimulator.Model.Location;
+import CarParkingSimulator.Model.Garage;
 import CarParkingSimulator.Model.Payment;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -34,7 +29,7 @@ public class GraphView extends JPanel
 
     private static ArrayList<Payment> revenue = new ArrayList<>();
 
-    private GarageHelper garageHelper = null;
+    private Garage garage = null;
 
     private Dimension size;
 
@@ -62,7 +57,7 @@ public class GraphView extends JPanel
         {
             int x1 = (int) (paymentStep * xScale + BORDER_GAP);
             //int y1 = (int) ((MAX_SCORE - revenue.get(i)) * yScale + BORDER_GAP);
-            totalAmount = totalAmount += payment.amount;
+            totalAmount = totalAmount += payment.getAmount();
             int y1 = (int) (totalAmount * yScale + BORDER_GAP);
             graphPoints.add(new Point(x1, y1));
             paymentStep++;

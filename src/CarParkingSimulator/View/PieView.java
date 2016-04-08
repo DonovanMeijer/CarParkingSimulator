@@ -1,23 +1,20 @@
 package CarParkingSimulator.View;
 
-import CarParkingSimulator.Model.Car;
-import CarParkingSimulator.Controller.GarageHelper;
-import CarParkingSimulator.Model.Location;
-
 import java.awt.*;
 
 /**
  * Created by redfox on 8-4-16.
  */
-public class PieView extends GarageHelper{
-    public PieView(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
-        super(numberOfFloors, numberOfRows, numberOfPlaces);
+public class PieView
+{
+    public PieView()
+    {
     }
 
     public void paintComponent(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, 200, 200);
-        int[][][] cars=GarageHelper.getCarAt();
+        int[][][] cars =  new int[1][1][1];
 
         if (cars==null) return;
 

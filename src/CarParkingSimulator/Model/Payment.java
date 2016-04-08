@@ -5,9 +5,15 @@ package CarParkingSimulator.Model;
  */
 public class Payment
 {
-    public double amount;
+    private double amount;
+
     public Payment(double amount)
     {
         this.amount = amount;
+    }
+
+    public double getAmount()
+    {
+        return amount;
     }
 }
