@@ -11,11 +11,16 @@ public class Finance
 
     public ArrayList<Payment> income = new ArrayList<Payment>();
 
-    public void pay(int totalTime)
+    public void NormalPay(int totalTime)
     {
         double amountDue = totalTime * (amountPerHour / 60);
 
         income.add(new Payment(amountDue));
+    }
+
+    public void PassHolderPay(int totalTime)
+    {
+        income.add(new Payment(0, "passHolder"));
     }
 
     public double dailyRevenue()

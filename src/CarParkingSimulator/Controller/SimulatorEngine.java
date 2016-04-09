@@ -144,7 +144,16 @@ public class SimulatorEngine
         // Add the cars to the back of the queue.
         for (int i = 0; i < numberOfCarsPerMinute; i++)
         {
+            int rand = (int)(Math.random() * 11);
             Car car = new AdHocCar();
+            if((rand%2) == 0 )
+            {
+                car = new NormalCar();
+            }
+            else
+            {
+                car = new PassHolderCar();
+            }
 
             entranceCarQueue.addCar(car);
         }
@@ -204,10 +213,18 @@ public class SimulatorEngine
                 break;
             }
 
-            garage.getFinances().pay(car.getTotalTime());
+
+            if(car instanceof NormalCar)
+            {
+                garage.getFinances().NormalPay(car.getTotalTime());
+
+            }
+            else if(car instanceof  PassHolderCar)
+            {
+                garage.getFinances().PassHolderPay(car.getTotalTime());
+            }
 
             garage.removeCarAt(car.getLocation());
-
             exitCarQueue.addCar(car);
         }
     }

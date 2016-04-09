@@ -75,8 +75,14 @@ public class ParkingView extends JPanelView
                     Location location = new Location(floor, row, place);
 
                     Car car = garage.getCarAt(location);
+                    Color color = Color.white;
 
-                    Color color = car == null ? Color.white : Color.red;
+                    if(car instanceof CarParkingSimulator.Model.NormalCar)
+                        color = car == null ? Color.white : Color.red;
+                    else if(car instanceof CarParkingSimulator.Model.PassHolderCar)
+                        color = car == null ? Color.white : Color.blue;
+
+
 
                     newDrawPlace(graphics, location, color);
                 }
