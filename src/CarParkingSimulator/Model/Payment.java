@@ -7,13 +7,19 @@ public class Payment
 {
     private double amount;
     private int time;
-    private String transactionType;
+    private TransactionType type;
 
-    public Payment(double amount, int time, String transactionType)
+    public enum TransactionType
+    {
+        Normal,
+        PassHolder
+    }
+
+    public Payment(double amount, int time, TransactionType type)
     {
         this.amount = amount;
         this.time = time;
-        this.transactionType = transactionType;
+        this.type = type;
     }
 
     public double getAmount()
@@ -21,9 +27,9 @@ public class Payment
         return amount;
     }
 
-    public String getTransactionType()
+    public TransactionType getType()
     {
-        return transactionType;
+        return type;
     }
 
     public int getTime()

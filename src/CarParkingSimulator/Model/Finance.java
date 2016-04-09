@@ -20,12 +20,12 @@ public class Finance
     {
         double amountDue = Math.round((timeParked * (amountPerHour / 60)) * 100.0) / 100.0;
 
-        parkingIncome.add(new Payment(amountDue, timeLeft, "n"));
+        parkingIncome.add(new Payment(amountDue, timeLeft, Payment.TransactionType.Normal));
     }
 
     public void payPassHolder(int timeParked, int timeLeft)
     {
-        parkingIncome.add(new Payment(0, timeLeft, "passHolder"));
+        parkingIncome.add(new Payment(0, timeLeft, Payment.TransactionType.PassHolder));
     }
 
     public double getRevenue()
