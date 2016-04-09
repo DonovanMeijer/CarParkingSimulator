@@ -5,7 +5,7 @@ import CarParkingSimulator.Model.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class ParkingView extends JPanel
+public class ParkingView extends JPanelView
 {
     private Garage garage;
 
