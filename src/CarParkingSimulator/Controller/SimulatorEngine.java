@@ -141,11 +141,9 @@ public class SimulatorEngine
         // Add the cars to the back of the queue.
         for (int i = 0; i < numberOfCarsPerMinute; i++)
         {
-            int rand = (int)(Math.random() * 11);
-
             Car car;
 
-            if((rand % 2) == 0)
+            if((((int)(Math.random() * 11)) % 2) == 0)
             {
                 car = new NormalCar();
             }

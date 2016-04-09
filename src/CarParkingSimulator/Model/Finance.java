@@ -9,7 +9,7 @@ public class Finance
 {
     private double amountPerHour = 5;
 
-    private ArrayList<Payment> parkingIncome;
+    public ArrayList<Payment> parkingIncome;
 
     public Finance(Garage garage)
     {

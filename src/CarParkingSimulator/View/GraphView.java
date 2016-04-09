@@ -8,35 +8,24 @@ import java.util.*;
 
 public class GraphView extends AbstractView
 {
-    //test value's
-    private int maxValue;
-    private static final int BORDER_GAP = 30;
-    private static final Color GRAPH_COLOR = Color.green;
-    private static final Color GRAPH_POINT_COLOR = new Color(150, 50, 50, 180);
     private static final Stroke GRAPH_STROKE = new BasicStroke(3f);
-    private static final int GRAPH_POINT_WIDTH = 12;
-    private static final int Y_HATCH_CNT = 10;
+
     private int padding = 25;
     private int labelPadding = 25;
     private int numberYDivisions = 10;
     private int pointWidth = 4;
+
     private Color gridColor = new Color(200, 200, 200, 200);
     private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
 
-    private static ArrayList<Payment> revenue = new ArrayList<>();
-
-    private Dimension size;
-
-    private Finance finance;
+    private static ArrayList<Payment> revenue;
 
     public GraphView(Garage garage)
     {
         super(garage);
 
-        //revenue = finance.;poao
-        this.finance = garage.getFinances();
-        maxValue = (int)finance.getRevenue();
+        revenue = garage.getFinances().parkingIncome;
     }
 
     public Dimension getPreferredSize()
@@ -46,7 +35,7 @@ public class GraphView extends AbstractView
 
     public void updateView()
     {
-
+        repaint();
     }
 
     public void paintComponent(Graphics g) {
@@ -132,20 +121,19 @@ public class GraphView extends AbstractView
         }
     }
 
-    private double getMinValue() {
-        double minValue = Double.MAX_VALUE;
-        for (Payment value : revenue) {
-            minValue = Math.min(minValue, value.getAmount());
-        }
-        return minValue;
+    private double getMinValue()
+    {
+        return 0;
     }
 
-    private double getMaxValue() {
+    private double getMaxValue()
+    {
         /*double maxValue = Double.MIN_VALUE;
         for (Payment value : revenue) {
             maxValue = Math.max(maxValue, value.amount);
         }
         return maxValue;*/
-        return finance.getRevenue();
+
+        return 100;
     }
 }

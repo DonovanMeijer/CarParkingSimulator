@@ -16,7 +16,10 @@ public class SimulatorWindow extends JFrame
     //GUI elements
     private JButton oneStepButton;
     private JButton hundredStepButton;
+
     private ParkingView parkingGarageView;
+    private GraphView graphView;
+
     private JLabel stepLabel;
 
     public SimulatorWindow(int numberOfFloors, int numberOfRows, int numberOfPlaces)
@@ -34,6 +37,8 @@ public class SimulatorWindow extends JFrame
         });
 
         parkingGarageView = new ParkingView(garage);
+        graphView = new GraphView(garage);
+
         stepLabel = new JLabel();
 
         oneStepButton = new JButton("One step");
@@ -77,6 +82,7 @@ public class SimulatorWindow extends JFrame
         bottomGridPanel.setLayout(new GridLayout(1, 1));
 
         tabControl.add("ParkingView", parkingGarageView);
+        tabControl.add("GraphView", graphView);
 
         centreGridPanel.add(tabControl);
         rightGridPanel.add(oneStepButton);
@@ -97,6 +103,7 @@ public class SimulatorWindow extends JFrame
         stepLabel.setText(Integer.toString(currentStep));
 
         parkingGarageView.updateView();
+        graphView.updateView();
     }
 
     public class SimulationThread extends Thread
