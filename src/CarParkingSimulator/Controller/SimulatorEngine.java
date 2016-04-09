@@ -37,14 +37,11 @@ public class SimulatorEngine
         {
             tick();
 
-            if (steps != -1)
-            {
-                currentStep += 1;
+            currentStep += 1;
 
-                if(currentStep >= steps)
-                {
-                    cancelTask();
-                }
+            if(currentStep >= steps)
+            {
+                cancelTask();
             }
         }
 
@@ -144,16 +141,7 @@ public class SimulatorEngine
         // Add the cars to the back of the queue.
         for (int i = 0; i < numberOfCarsPerMinute; i++)
         {
-            int rand = (int)(Math.random() * 11);
             Car car = new AdHocCar();
-            if((rand%2) == 0 )
-            {
-                car = new NormalCar();
-            }
-            else
-            {
-                car = new PassHolderCar();
-            }
 
             entranceCarQueue.addCar(car);
         }
@@ -213,18 +201,10 @@ public class SimulatorEngine
                 break;
             }
 
-
-            if(car instanceof NormalCar)
-            {
-                garage.getFinances().NormalPay(car.getTotalTime());
-
-            }
-            else if(car instanceof  PassHolderCar)
-            {
-                garage.getFinances().PassHolderPay(car.getTotalTime());
-            }
+            garage.getFinances().pay(currentStep - car.getTimeEntered(), currentStep);
 
             garage.removeCarAt(car.getLocation());
+
             exitCarQueue.addCar(car);
         }
     }

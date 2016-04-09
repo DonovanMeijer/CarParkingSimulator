@@ -1,27 +1,12 @@
 package CarParkingSimulator.View;
 
 //import CarParkingSimulator.Controller.GarageHelper;
-import CarParkingSimulator.Model.Finance;
-import CarParkingSimulator.Model.Location;
-import CarParkingSimulator.Model.Payment;
+import CarParkingSimulator.Model.*;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import java.util.*;
 
-public class GraphView extends JPanelView
+public class GraphView extends AbstractView
 {
     //test value's
     private int maxValue;
@@ -41,17 +26,17 @@ public class GraphView extends JPanelView
 
     private static ArrayList<Payment> revenue = new ArrayList<>();
 
-    //private GarageHelper garageHelper = null;
-
     private Dimension size;
 
     private Finance finance;
 
-    public GraphView(Finance finance)
+    public GraphView(Garage garage)
     {
-        revenue = finance.income;
-        this.finance = finance;
-        maxValue = (int)finance.dailyRevenue();
+        super(garage);
+
+        //revenue = finance.;poao
+        this.finance = garage.getFinances();
+        maxValue = (int)finance.getRevenue();
     }
 
     public Dimension getPreferredSize()
@@ -71,7 +56,7 @@ public class GraphView extends JPanelView
         double xScale = ((double) getWidth() - (2 * padding) - labelPadding) / (revenue.size() - 1);
         double yScale = ((double) getHeight() - 2 * padding - labelPadding) / (getMaxValue() - getMinValue());
 
-        List<Point> graphPoints = new ArrayList<>();
+        ArrayList<Point> graphPoints = new ArrayList<>();
         for (int i = 0; i < revenue.size(); i++) {
             int x1 = (int) (i * xScale + padding + labelPadding);
             int y1 = (int) ((getMaxValue() - revenue.get(i).getAmount()) * yScale + padding);
@@ -161,6 +146,6 @@ public class GraphView extends JPanelView
             maxValue = Math.max(maxValue, value.amount);
         }
         return maxValue;*/
-        return finance.dailyRevenue();
+        return finance.getRevenue();
     }
 }

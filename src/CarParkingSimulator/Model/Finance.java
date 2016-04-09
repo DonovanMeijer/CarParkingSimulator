@@ -9,27 +9,40 @@ public class Finance
 {
     private double amountPerHour = 5;
 
-    public ArrayList<Payment> income = new ArrayList<Payment>();
+    private ArrayList<Payment> parkingIncome;
 
-    public void NormalPay(int totalTime)
+    public Finance(Garage garage)
     {
-        double amountDue = totalTime * (amountPerHour / 60);
-
-        income.add(new Payment(amountDue));
+        parkingIncome = new ArrayList<Payment>();
     }
 
-    public void PassHolderPay(int totalTime)
+    public void pay(int timeParked, int timeLeft)
     {
-        income.add(new Payment(0, "passHolder"));
+        double amountDue = Math.round((timeParked * (amountPerHour / 60)) * 100.0) / 100.0;
+
+        parkingIncome.add(new Payment(amountDue, timeLeft, "n"));
     }
 
-    public double dailyRevenue()
+    public void payPassHolder(int timeParked, int timeLeft)
     {
-        double revenue = 0;
+        parkingIncome.add(new Payment(0, timeLeft, "passHolder"));
+    }
 
-        for(Payment payment : income)
+    public double getRevenue()
+    {
+        return getRevenue(0, Integer.MAX_VALUE);
+    }
+
+    public double getRevenue(int beginTime, int endTime)
+    {
+        double revenue = 0.00;
+
+        for(Payment payment : parkingIncome)
         {
-            revenue += payment.getAmount();
+            if (payment.getTime() >= beginTime && payment.getTime() <= endTime)
+            {
+                revenue += payment.getAmount();
+            }
         }
 
         return revenue;

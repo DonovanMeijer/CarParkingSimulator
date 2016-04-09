@@ -5,10 +5,8 @@ import CarParkingSimulator.Model.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class ParkingView extends JPanelView
+public class ParkingView extends AbstractView
 {
-    private Garage garage;
-
     private Dimension size;
     private Image carParkImage;
 
@@ -17,7 +15,7 @@ public class ParkingView extends JPanelView
      */
     public ParkingView(Garage garage)
     {
-        this.garage = garage;
+        super(garage);
 
         size = new Dimension(0, 0);
     }
@@ -77,10 +75,10 @@ public class ParkingView extends JPanelView
                     Car car = garage.getCarAt(location);
                     Color color = Color.white;
 
-                    if(car instanceof CarParkingSimulator.Model.NormalCar)
+                    //if(car instanceof CarParkingSimulator.Model.NormalCar)
                         color = car == null ? Color.white : Color.red;
-                    else if(car instanceof CarParkingSimulator.Model.PassHolderCar)
-                        color = car == null ? Color.white : Color.blue;
+                    //else if(car instanceof CarParkingSimulator.Model.PassHolderCar)
+                        //color = car == null ? Color.white : Color.blue;
 
 
 

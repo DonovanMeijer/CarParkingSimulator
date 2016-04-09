@@ -4,7 +4,7 @@ public abstract class Car
 {
     private Location location;
     private int minutesLeft;
-    private int totalTime;
+    private int timeEntered;
     private boolean isPaying;
 
     /**
@@ -45,14 +45,18 @@ public abstract class Car
         this.isPaying = isPaying;
     }
 
-    public int getTotalTime()
+    public int getTimeEntered()
     {
-        return totalTime;
+        return timeEntered;
+    }
+
+    public void setTimeEntered(int timeEntered)
+    {
+        this.timeEntered = timeEntered;
     }
 
     public void tick()
     {
         minutesLeft--;
-        totalTime++;
     }
 }

@@ -21,7 +21,7 @@ public class Garage
 
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
 
-        finances = new Finance();
+        finances = new Finance(this);
     }
 
     public int getNumberOfFloors()

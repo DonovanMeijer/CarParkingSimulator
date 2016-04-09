@@ -85,7 +85,10 @@ public class Location
     /**
      * @return Reservation
      */
-    public boolean getReservation() { return isReserved; }
+    public boolean getReservation()
+    {
+        return isReserved;
+    }
 
     public void setReservation(boolean value)
     {

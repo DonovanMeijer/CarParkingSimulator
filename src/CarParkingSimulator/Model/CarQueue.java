@@ -11,7 +11,6 @@ public class CarQueue
 
     public boolean addCar(Car car)
     {
-        System.out.println(car.getClass().getName());
         return queue.add(car);
     }
 

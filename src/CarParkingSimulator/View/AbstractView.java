@@ -18,9 +18,6 @@ public abstract class AbstractView extends JPanel
         return garage;
     }
 
-    public void updateView()
-    {
-        repaint();
-    }
+    public abstract void updateView();
 }
 
