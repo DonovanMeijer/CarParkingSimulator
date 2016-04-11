@@ -1,7 +1,7 @@
 package CarParkingSimulator.Model;
 
 /**
- * Created by John on 29/03/16.
+ * Class for normal cars.
  */
 public class NormalCar extends Car
 {
