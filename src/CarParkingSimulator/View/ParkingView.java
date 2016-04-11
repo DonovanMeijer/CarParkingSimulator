@@ -79,9 +79,6 @@ public class ParkingView extends AbstractView
                         color = car == null ? Color.white : Color.red;
                     else if(car instanceof PassHolderCar)
                         color = car == null ? Color.white : Color.blue;
-
-
-
                     newDrawPlace(graphics, location, color);
                 }
             }
