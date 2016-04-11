@@ -7,25 +7,44 @@ import java.util.ArrayList;
  */
 public class Finance
 {
-    private double amountPerHour = 2.5;
+    private double amountPerHour = 5;
 
-    public ArrayList<Payment> income = new ArrayList<Payment>();
+    public ArrayList<Payment> parkingIncome;
 
-    public void pay(int totalTime)
+    public Finance(Garage garage)
     {
-        //determine the amount of quarters and pay for each parker quarter instead of each minure or hour
-        int quarters = totalTime / 15;
-        double amountDue = quarters * (amountPerHour / 4);
-        income.add(new Payment(amountDue));
+        parkingIncome = new ArrayList<Payment>();
     }
 
-    public double dailyRevenue()
+    public void pay(int timeParked, int timeLeft)
     {
-        double revenue = 0;
-        for(Payment payment : income)
+        double amountDue = Math.round((timeParked * (amountPerHour / 60)) * 100.0) / 100.0;
+
+        parkingIncome.add(new Payment(amountDue, timeLeft, Payment.TransactionType.Normal));
+    }
+
+    public void payPassHolder(int timeParked, int timeLeft)
+    {
+        parkingIncome.add(new Payment(0, timeLeft, Payment.TransactionType.PassHolder));
+    }
+
+    public double getRevenue()
+    {
+        return getRevenue(0, Integer.MAX_VALUE);
+    }
+
+    public double getRevenue(int beginTime, int endTime)
+    {
+        double revenue = 0.00;
+
+        for(Payment payment : parkingIncome)
         {
-            revenue += payment.amount;
+            if (payment.getTime() >= beginTime && payment.getTime() <= endTime)
+            {
+                revenue += payment.getAmount();
+            }
         }
+
         return revenue;
     }
 }

@@ -5,9 +5,35 @@ package CarParkingSimulator.Model;
  */
 public class Payment
 {
-    public double amount;
-    public Payment(double amount)
+    private double amount;
+    private int time;
+    private TransactionType type;
+
+    public enum TransactionType
+    {
+        Normal,
+        PassHolder
+    }
+
+    public Payment(double amount, int time, TransactionType type)
     {
         this.amount = amount;
+        this.time = time;
+        this.type = type;
+    }
+
+    public double getAmount()
+    {
+        return amount;
+    }
+
+    public TransactionType getType()
+    {
+        return type;
+    }
+
+    public int getTime()
+    {
+        return time;
     }
 }

@@ -1,11 +1,9 @@
-package CarParkingSimulator.Controller;
-
-import CarParkingSimulator.Model.*;
+package CarParkingSimulator.Model;
 
 /**
- * Created by John on 04/04/16.
+ * Created by John on 08/04/16.
  */
-public class GarageHelper
+public class Garage
 {
     private int numberOfFloors;
     private int numberOfRows;
@@ -13,13 +11,17 @@ public class GarageHelper
 
     private Car[][][] cars;
 
-    public GarageHelper(int numberOfFloors, int numberOfRows, int numberOfPlaces)
+    private Finance finances;
+
+    public Garage(int numberOfFloors, int numberOfRows, int numberOfPlaces)
     {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
 
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
+
+        finances = new Finance(this);
     }
 
     public int getNumberOfFloors()
@@ -43,6 +45,7 @@ public class GarageHelper
         {
             return null;
         }
+
         return cars[location.getFloor()][location.getRow()][location.getPlace()];
     }
 
@@ -130,6 +133,11 @@ public class GarageHelper
         }
 
         return null;
+    }
+
+    public Finance getFinances()
+    {
+        return finances;
     }
 
     public void tick()

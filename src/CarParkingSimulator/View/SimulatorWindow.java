@@ -2,27 +2,30 @@ package CarParkingSimulator.View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import CarParkingSimulator.Controller.*;
+import CarParkingSimulator.Model.Garage;
 
 public class SimulatorWindow extends JFrame
 {
     //Code elements
-    private GarageHelper garageHelper;
+    private Garage garage;
     private SimulatorEngine simulatorEngine;
 
     //GUI elements
     private JButton oneStepButton;
     private JButton hundredStepButton;
+
     private ParkingView parkingGarageView;
+    private GraphView graphView;
+
     private JLabel stepLabel;
 
     public SimulatorWindow(int numberOfFloors, int numberOfRows, int numberOfPlaces)
     {
-        garageHelper = new GarageHelper(numberOfFloors, numberOfRows, numberOfPlaces);
-        simulatorEngine = new SimulatorEngine(garageHelper);
+        garage = new Garage(numberOfFloors, numberOfRows, numberOfPlaces);
+        simulatorEngine = new SimulatorEngine(garage);
 
         simulatorEngine.addListener(new SimulatorEngine.UpdateListener()
         {
@@ -33,7 +36,9 @@ public class SimulatorWindow extends JFrame
             }
         });
 
-        parkingGarageView = new ParkingView(garageHelper);
+        parkingGarageView = new ParkingView(garage);
+        graphView = new GraphView(garage);
+
         stepLabel = new JLabel();
 
         oneStepButton = new JButton("One step");
@@ -44,7 +49,7 @@ public class SimulatorWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                simulatorEngine.runSimulation(1);
+                (new SimulationThread(1)).start();
             }
         });
 
@@ -53,31 +58,33 @@ public class SimulatorWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                simulatorEngine.runSimulation(100);
+                (new SimulationThread(100)).start();
             }
         });
 
-        setupGUI();
+        createLayout();
 
         updateView(0);
-
-        simulatorEngine.runSimulation(100);
     }
 
-    private void setupGUI()
+    private void createLayout()
     {
         Container elementWindow = getContentPane();
 
         JPanel centreGridPanel = new JPanel();
         JPanel rightGridPanel = new JPanel();
         JPanel bottomGridPanel = new JPanel();
+        JTabbedPane tabControl = new JTabbedPane();
 
         elementWindow.setLayout(new BorderLayout());
         rightGridPanel.setLayout(new BoxLayout(rightGridPanel, BoxLayout.Y_AXIS));
         centreGridPanel.setLayout(new GridLayout(1, 1));
         bottomGridPanel.setLayout(new GridLayout(1, 1));
 
-        centreGridPanel.add(parkingGarageView);
+        tabControl.add("ParkingView", parkingGarageView);
+        tabControl.add("GraphView", graphView);
+
+        centreGridPanel.add(tabControl);
         rightGridPanel.add(oneStepButton);
         rightGridPanel.add(hundredStepButton);
         bottomGridPanel.add(stepLabel);
@@ -96,5 +103,30 @@ public class SimulatorWindow extends JFrame
         stepLabel.setText(Integer.toString(currentStep));
 
         parkingGarageView.updateView();
+        graphView.updateView();
+    }
+
+    public class SimulationThread extends Thread
+    {
+        private Thread thread;
+        private int stepsToPerform;
+
+        public SimulationThread(int stepsToPerform)
+        {
+            this.stepsToPerform = stepsToPerform;
+        }
+
+        public void run()
+        {
+            simulatorEngine.runSimulation(stepsToPerform);
+        }
+
+        public void start()
+        {
+            thread = new Thread(this, "SimulationThread");
+
+            thread.start();
+        }
+
     }
 }
