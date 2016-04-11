@@ -17,6 +17,7 @@ public class SimulatorEngine
     private SimulatorState currentState;
 
     private int currentStep = 0;
+
     /**
      * List of constants of simulator states.
      */
@@ -42,8 +43,6 @@ public class SimulatorEngine
         }
 
         /** Runs the simulation as long as the currentStep is lower or equal to steps.
-         *@param currentStep    The current number of steps taken.
-         *@param steps  Maximum amount of steps set.
          */
         public void run()
         {
