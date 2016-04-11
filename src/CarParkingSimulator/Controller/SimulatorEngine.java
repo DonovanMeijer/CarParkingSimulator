@@ -17,7 +17,9 @@ public class SimulatorEngine
     private SimulatorState currentState;
 
     private int currentStep = 0;
-
+    /**
+     * List of constants of simulator states.
+     */
     public enum SimulatorState
     {
         NotActive,
