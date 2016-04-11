@@ -4,6 +4,9 @@ import CarParkingSimulator.Model.*;
 
 import java.util.*;
 
+/** Generates a simulation for a car park.
+ *
+ */
 public class SimulatorEngine
 {
     private Garage garage;
@@ -28,11 +31,18 @@ public class SimulatorEngine
         private int currentStep = 0;
         private int steps = 0;
 
+        /** Sets the amount of steps.
+         * @param amountOfSteps			Contains the amount of steps.
+         */
         public void setAmountOfSteps(int amountOfSteps)
         {
             steps = amountOfSteps;
         }
 
+        /** Runs the simulation as long as the currentStep is lower or equal to steps.
+         *@param currentStep    The current number of steps taken.
+         *@param steps  Maximum amount of steps set.
+         */
         public void run()
         {
             tick();
@@ -44,7 +54,8 @@ public class SimulatorEngine
                 cancelTask();
             }
         }
-
+        /** Cancels the timer.
+         */
         public void cancelTask()
         {
             timer.cancel();
