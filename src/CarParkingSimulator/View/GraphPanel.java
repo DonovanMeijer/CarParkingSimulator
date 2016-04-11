@@ -16,6 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * Class for making a Graphpanel.
+ */
 public class GraphPanel extends JPanel {
 
     private int width = 800;
