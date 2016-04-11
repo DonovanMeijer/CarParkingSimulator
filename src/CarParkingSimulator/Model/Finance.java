@@ -3,6 +3,7 @@ package CarParkingSimulator.Model;
 import java.util.ArrayList;
 
 /**
+ *
  * Created by wout on 4/6/2016.
  */
 public class Finance
