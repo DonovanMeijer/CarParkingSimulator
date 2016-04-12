@@ -1,10 +1,8 @@
 package CarParkingSimulator.View;
 
-import CarParkingSimulator.Model.Garage;
-
-import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+
+import CarParkingSimulator.Model.*;
 
 /**
  * Created by wout on 4/11/2016.

@@ -5,8 +5,5 @@ package CarParkingSimulator.Model;
  */
 public class PassHolderCar extends Car
 {
-    public PassHolderCar()
-    {
 
-    }
 }
