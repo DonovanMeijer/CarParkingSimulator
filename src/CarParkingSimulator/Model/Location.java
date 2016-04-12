@@ -10,9 +10,6 @@ public class Location
     private int place;
     private boolean isReserved;
 
-    /**
-     * Constructor for objects of class Location
-     */
     public Location(int floor, int row, int place)
     {
         this.floor = floor;
@@ -20,9 +17,6 @@ public class Location
         this.place = place;
     }
 
-    /**
-     * Implement content equality. // TODO check if this is needed
-     */
     public boolean equals(Object obj)
     {
         if(obj instanceof Location)
@@ -37,10 +31,6 @@ public class Location
         }
     }
 
-    /**
-     * Return a string of the form floor,row,place.
-     * @return A string representation of the location.
-     */
     public String toString()
     {
         return floor + "," + row + "," + place;
