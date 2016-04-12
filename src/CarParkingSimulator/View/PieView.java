@@ -10,7 +10,7 @@ public class PieView
     public PieView()
     {
     }
-
+    // Het berekenen van de lengte van de input data
     public void paintComponent(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, 200, 200);
@@ -30,7 +30,7 @@ public class PieView
                 }
             }
         }
-
+        // Het berekenen van de kleuren in de PieDiagram
         int angle=(int)(360*(count/(cars.length*cars.length)));
         g.setColor(Color.BLUE);
         g.fillArc(10, 10, 180, 180, 0, angle);
