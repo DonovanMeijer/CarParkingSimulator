@@ -1,9 +1,9 @@
 package CarParkingSimulator.Model;
 /** Class for creating objects of the class Car.
- *@param location      Which floor, row and place is the car located on.
- *@param minutesleft   Amount of minutes left.
- *@param timeEntered   The time when the car has entered the carpark.
- *@param isPaying
+ *param location      Which floor, row and place is the car located on.
+ *param minutesleft   Amount of minutes left.
+ *param timeEntered   The time when the car has entered the carpark.
+ *param isPaying
  */
 public abstract class Car
 {
