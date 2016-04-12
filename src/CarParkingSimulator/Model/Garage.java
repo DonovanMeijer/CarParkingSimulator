@@ -39,6 +39,11 @@ public class Garage
         return numberOfPlaces;
     }
 
+    public int getTotalAmountOfParkingPlaces()
+    {
+        int total = numberOfFloors * numberOfPlaces * numberOfRows;
+        return total;
+    }
     public Car getCarAt(Location location)
     {
         if (!locationIsValid(location))

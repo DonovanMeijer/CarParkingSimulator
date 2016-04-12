@@ -20,6 +20,8 @@ public class SimulatorWindow extends JFrame
     private ParkingView parkingGarageView;
     private GraphView graphView;
     private HistogramView histogramView;
+    private TextView textView;
+    private PieView pieView;
 
     private JLabel stepLabel;
 
@@ -40,7 +42,8 @@ public class SimulatorWindow extends JFrame
         parkingGarageView = new ParkingView(garage);
         graphView = new GraphView(garage);
         histogramView = new HistogramView(garage);
-
+        textView = new TextView(garage, simulatorEngine);
+        pieView = new PieView(garage);
         stepLabel = new JLabel();
 
         oneStepButton = new JButton("One step");
@@ -83,9 +86,11 @@ public class SimulatorWindow extends JFrame
         centreGridPanel.setLayout(new GridLayout(1, 1));
         bottomGridPanel.setLayout(new GridLayout(1, 1));
 
-        tabControl.add("ParkingView", parkingGarageView);
-        tabControl.add("GraphView", graphView);
+        tabControl.add("Parking View", parkingGarageView);
+        tabControl.add("Graph View", graphView);
         tabControl.add("Histogram", histogramView);
+        tabControl.add("Text View", textView);
+        tabControl.add("Pie View", pieView);
 
         centreGridPanel.add(tabControl);
         rightGridPanel.add(oneStepButton);
@@ -107,6 +112,9 @@ public class SimulatorWindow extends JFrame
 
         parkingGarageView.updateView();
         graphView.updateView();
+        histogramView.updateView();
+        textView.updateView();
+        pieView.updateView();
     }
 
     public class SimulationThread extends Thread

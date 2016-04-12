@@ -158,7 +158,6 @@ public class SimulatorEngine
 
     private void advanceEntranceQueue()
     {
-
         // Remove car from the front of the queue and assign to a parking space.
         for (int i = 0; i < enterSpeed; i++)
         {
@@ -278,4 +277,11 @@ public class SimulatorEngine
         void DataUpdated(int currentStep);
     }
     //endregion
+
+    public CarQueue getEntranceCarQueue() { return entranceCarQueue; }
+
+    public CarQueue getPaymentCarQueue() { return paymentCarQueue; }
+
+    public CarQueue getExitCarQueue() { return exitCarQueue; }
+
 }

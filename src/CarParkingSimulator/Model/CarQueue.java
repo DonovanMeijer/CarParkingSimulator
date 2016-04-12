@@ -18,4 +18,6 @@ public class CarQueue
     {
         return queue.poll();
     }
+
+    public Queue<Car> getQueue() { return queue;}
 }
