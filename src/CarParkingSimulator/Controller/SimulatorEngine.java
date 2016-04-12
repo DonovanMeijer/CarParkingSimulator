@@ -4,7 +4,7 @@ import CarParkingSimulator.Model.*;
 
 import java.util.*;
 
-/** SimulatorEngine is the class for
+/** SimulatorEngine is the class for setting up the behaviour of the simulation.
  *
  */
 public class SimulatorEngine
