@@ -1,10 +1,8 @@
 package CarParkingSimulator.View;
 
-import CarParkingSimulator.Model.Garage;
-
-import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+
+import CarParkingSimulator.Model.*;
 
 /**
  * Class for making a Histogram for the daily revenues.
