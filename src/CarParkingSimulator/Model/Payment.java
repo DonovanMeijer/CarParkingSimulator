@@ -1,7 +1,10 @@
 package CarParkingSimulator.Model;
 
 /**
- * Created by wout on 4/6/2016.
+ * Class for different kind of payments.
+ * @param amount    amount to pay.
+ * @param time      amount of time.
+ * @param type      type of transaction.
  */
 public class Payment
 {
@@ -9,6 +12,9 @@ public class Payment
     private int time;
     private TransactionType type;
 
+    /**
+     * List of constants of transaction types.
+     */
     public enum TransactionType
     {
         Normal,
@@ -22,16 +28,25 @@ public class Payment
         this.type = type;
     }
 
+    /**
+     * @return The amount.
+     */
     public double getAmount()
     {
         return amount;
     }
 
+    /**
+     * @return The type of transaction.
+     */
     public TransactionType getType()
     {
         return type;
     }
 
+    /**
+     * @return The time.
+     */
     public int getTime()
     {
         return time;

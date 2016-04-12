@@ -1,13 +1,13 @@
 package CarParkingSimulator.View;
 
-import CarParkingSimulator.Model.Garage;
-
-import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+
+import CarParkingSimulator.Model.*;
 
 /**
+ * Class for making a Histogram for the daily revenues.
  * Created by wout on 4/11/2016.
+ *
  */
 public class HistogramView extends AbstractView
 {
@@ -27,6 +27,8 @@ public class HistogramView extends AbstractView
     private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
 
+    /** Setting up the Histogram with the amount of revenue, colors and name of days.
+     */
     public HistogramView(Garage garage)
     {
         super(garage);

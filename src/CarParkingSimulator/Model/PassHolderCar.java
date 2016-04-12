@@ -1,12 +1,9 @@
 package CarParkingSimulator.Model;
 
 /**
- * Created by wout on 4/6/2016.
+ * Class for passholder cars.
  */
 public class PassHolderCar extends Car
 {
-    public PassHolderCar()
-    {
 
-    }
 }

@@ -1,7 +1,6 @@
 package CarParkingSimulator.Model;
 
-/**
- * Created by John on 29/03/16.
+/** Class for Location of cars.
  */
 public class Location
 {

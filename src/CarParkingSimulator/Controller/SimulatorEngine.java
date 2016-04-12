@@ -13,8 +13,6 @@ public class SimulatorEngine
 
     private SimulatorState currentState;
 
-    private int currentStep = 0;
-
     public enum SimulatorState
     {
         NotActive,
@@ -57,9 +55,6 @@ public class SimulatorEngine
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
 
-    private int day = 0;
-    private int hour = 0;
-    private int minute = 0;
 
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
@@ -104,33 +99,10 @@ public class SimulatorEngine
         timer.scheduleAtFixedRate(simulationTimerTask, 0, tickPause);
     }
 
-    private void incrementTime()
-    {
-        // Advance the time by one minute.
-        minute++;
-
-        while (minute > 59)
-        {
-            minute -= 60;
-            hour++;
-        }
-
-        while (hour > 23)
-        {
-            hour -= 24;
-            day++;
-        }
-
-        while (day > 6)
-        {
-            day -= 7;
-        }
-    }
-
     private void generateVisitors()
     {
         // Get the average number of cars that arrive per hour.
-        int averageNumberOfCarsPerHour = day < 5 ? weekDayArrivals : weekendArrivals;
+        int averageNumberOfCarsPerHour = SimulatorTime.day < 5 ? weekDayArrivals : weekendArrivals;
 
         // Calculate the number of cars that arrive this minute.
         double standardDeviation = averageNumberOfCarsPerHour * 0.1;
@@ -196,7 +168,18 @@ public class SimulatorEngine
 
             car.setIsPaying(true);
 
-            paymentCarQueue.addCar(car);
+            if (car instanceof NormalCar)
+            {
+                paymentCarQueue.addCar(car);
+            }
+            else
+            {
+                garage.getFinances().pay(SimulatorTime.step - car.getTimeEntered(), SimulatorTime.step, Payment.TransactionType.PassHolder);
+
+                garage.removeCarAt(car.getLocation());
+
+                exitCarQueue.addCar(car);
+            }
         }
 
         // Let cars pay.
@@ -209,15 +192,7 @@ public class SimulatorEngine
                 break;
             }
 
-            if(car instanceof NormalCar)
-            {
-                garage.getFinances().pay(currentStep - car.getTimeEntered(), currentStep);
-
-            }
-            else if(car instanceof PassHolderCar)
-            {
-                garage.getFinances().payPassHolder(currentStep - car.getTimeEntered(), currentStep);
-            }
+            garage.getFinances().pay(SimulatorTime.step - car.getTimeEntered(), SimulatorTime.step, Payment.TransactionType.Normal);
 
             garage.removeCarAt(car.getLocation());
 
@@ -242,9 +217,9 @@ public class SimulatorEngine
 
     private void tick()
     {
-        currentStep += 1;
+        SimulatorTime.step += 1;
 
-        incrementTime();
+        SimulatorTime.incrementTime();
 
         generateVisitors();
 
@@ -260,7 +235,7 @@ public class SimulatorEngine
         //Trigger all associated event listeners.
         for (UpdateListener listener : eventListeners)
         {
-            listener.DataUpdated(currentStep);
+            listener.DataUpdated();
         }
     }
 
@@ -272,9 +247,14 @@ public class SimulatorEngine
         eventListeners.add(listenerToAdd);
     }
 
+    public void removeListener(UpdateListener listenerToRemove)
+    {
+        eventListeners.remove(listenerToRemove);
+    }
+
     public interface UpdateListener
     {
-        void DataUpdated(int currentStep);
+        void DataUpdated();
     }
     //endregion
 

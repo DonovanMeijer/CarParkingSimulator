@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import CarParkingSimulator.Controller.*;
-import CarParkingSimulator.Model.Garage;
+import CarParkingSimulator.Model.*;
 
 public class SimulatorWindow extends JFrame
 {
@@ -33,9 +33,9 @@ public class SimulatorWindow extends JFrame
         simulatorEngine.addListener(new SimulatorEngine.UpdateListener()
         {
             @Override
-            public void DataUpdated(int currentStep)
+            public void DataUpdated()
             {
-                updateView(currentStep);
+                updateView();
             }
         });
 
@@ -54,7 +54,7 @@ public class SimulatorWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                (new SimulationThread(1)).start();
+                (new SimulationThread(Integer.MAX_VALUE)).start();
             }
         });
 
@@ -69,7 +69,7 @@ public class SimulatorWindow extends JFrame
 
         createLayout();
 
-        updateView(0);
+        updateView();
     }
 
     private void createLayout()
@@ -106,9 +106,9 @@ public class SimulatorWindow extends JFrame
         setVisible(true);
     }
 
-    public void updateView(int currentStep)
+    public void updateView()
     {
-        stepLabel.setText(Integer.toString(currentStep));
+        stepLabel.setText(Integer.toString(SimulatorTime.step));
 
         parkingGarageView.updateView();
         graphView.updateView();

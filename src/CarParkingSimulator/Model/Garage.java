@@ -1,7 +1,7 @@
 package CarParkingSimulator.Model;
 
 /**
- * Created by John on 08/04/16.
+ *
  */
 public class Garage
 {
@@ -24,16 +24,25 @@ public class Garage
         finances = new Finance(this);
     }
 
+    /**
+     * @return The number of floors.
+     */
     public int getNumberOfFloors()
     {
         return numberOfFloors;
     }
 
+    /**
+     * @return The number of rows.
+     */
     public int getNumberOfRows()
     {
         return numberOfRows;
     }
 
+    /**
+     * @return The number of places.
+     */
     public int getNumberOfPlaces()
     {
         return numberOfPlaces;
@@ -171,6 +180,7 @@ public class Garage
         int floor = location.getFloor();
         int row = location.getRow();
         int place = location.getPlace();
+
         boolean reserved = location.getReservation();
 
         if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces || reserved)
