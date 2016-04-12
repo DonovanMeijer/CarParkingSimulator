@@ -5,7 +5,10 @@ import CarParkingSimulator.Model.*;
 import javax.swing.*;
 import java.awt.*;
 
-/** Class for displaying the parking garage and the cars.
+/**
+ * Class for displaying the parking garage and the cars.
+ * @author Donovan Meijer
+ * @version 1.0
  */
 public class ParkingView extends AbstractView
 {

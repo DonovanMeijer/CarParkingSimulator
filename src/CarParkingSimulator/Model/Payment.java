@@ -1,10 +1,9 @@
 package CarParkingSimulator.Model;
 
 /**
- * Class for different kind of payments.
- * @param amount    amount to pay.
- * @param time      amount of time.
- * @param type      type of transaction.
+ * Class for storing transaction data.
+ * @author Wout Feringa, Donovan Meijer
+ * @version 1.0
  */
 public class Payment
 {
@@ -21,6 +20,12 @@ public class Payment
         PassHolder
     }
 
+    /**
+     * Class for different kind of payments.
+     * @param amount amount to pay.
+     * @param time amount of time.
+     * @param type type of transaction.
+     */
     public Payment(double amount, int time, TransactionType type)
     {
         this.amount = amount;

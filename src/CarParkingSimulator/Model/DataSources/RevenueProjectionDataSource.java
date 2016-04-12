@@ -1,21 +1,21 @@
-package CarParkingSimulator.Controller.DataSets;
+package CarParkingSimulator.Model.DataSources;
 
 import CarParkingSimulator.Model.*;
 
 /**
  * Created by John on 11/04/16.
  */
-public class RevenueProjectionDataSet implements DataSet
+public class RevenueProjectionDataSource implements DataSource
 {
     private Finance finances;
 
-    public RevenueProjectionDataSet(Garage garage)
+    public RevenueProjectionDataSource(Garage garage)
     {
 
     }
 
     @Override
-    public double[] getDataSet()
+    public double[] getDataSource()
     {
         return new double[0];
     }

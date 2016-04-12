@@ -1,6 +1,7 @@
 package CarParkingSimulator.Model;
 
-/** Class for Location of cars.
+/**
+ * Class for Location of cars.
  */
 public class Location
 {
@@ -8,7 +9,6 @@ public class Location
     private int floor;
     private int row;
     private int place;
-    private boolean isReserved;
 
     public Location(int floor, int row, int place)
     {
@@ -69,18 +69,5 @@ public class Location
     public int getPlace()
     {
         return place;
-    }
-
-    /**
-     * @return Reservation
-     */
-    public boolean getReservation()
-    {
-        return isReserved;
-    }
-
-    public void setReservation(boolean value)
-    {
-        isReserved = value;
     }
 }

@@ -1,4 +1,4 @@
-package CarParkingSimulator.Controller.DataSets;
+package CarParkingSimulator.Model.DataSources;
 
 import CarParkingSimulator.Model.*;
 
@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by John on 11/04/16.
  */
-public abstract class RevenueDataSet implements DataSet
+public abstract class RevenueDataSource implements DataSource
 {
     private Finance finances;
 
@@ -17,11 +17,11 @@ public abstract class RevenueDataSet implements DataSet
 
     protected double highestValue = 0;
 
-    public RevenueDataSet(Garage garage)
+    public RevenueDataSource(Garage garage)
     {
         finances = garage.getFinances();
 
-        initiateDataSet();
+        initiateDataSource();
 
         finances.addListener(new Finance.TransactionListener()
         {
@@ -33,7 +33,7 @@ public abstract class RevenueDataSet implements DataSet
         });
     }
 
-    private void initiateDataSet()
+    private void initiateDataSource()
     {
         data = new ArrayList<Double>();
 
@@ -66,7 +66,7 @@ public abstract class RevenueDataSet implements DataSet
     protected abstract void addTransaction(Payment transaction);
 
     @Override
-    public double[] getDataSet()
+    public double[] getDataSource()
     {
         return visualisationData;
     }

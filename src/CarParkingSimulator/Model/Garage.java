@@ -1,7 +1,11 @@
 package CarParkingSimulator.Model;
 
+import java.util.*;
+
 /**
- *
+ * Abstract class describing a basic form for a data view.
+ * @author Donovan Meijer
+ * @version 1.0
  */
 public class Garage
 {
@@ -50,9 +54,9 @@ public class Garage
 
     public int getTotalAmountOfParkingPlaces()
     {
-        int total = numberOfFloors * numberOfPlaces * numberOfRows;
-        return total;
+        return numberOfFloors * numberOfPlaces * numberOfRows;
     }
+
     public Car getCarAt(Location location)
     {
         if (!locationIsValid(location))
@@ -78,6 +82,12 @@ public class Garage
 
             car.setLocation(location);
 
+            //Trigger all associated event listeners.
+            for (GarageListener listener : eventListeners)
+            {
+                listener.CarEntered(car);
+            }
+
             return true;
         }
 
@@ -101,6 +111,12 @@ public class Garage
         cars[location.getFloor()][location.getRow()][location.getPlace()] = null;
 
         car.setLocation(null);
+
+        //Trigger all associated event listeners.
+        for (GarageListener listener : eventListeners)
+        {
+            listener.CarExited(car);
+        }
 
         return car;
     }
@@ -181,13 +197,32 @@ public class Garage
         int row = location.getRow();
         int place = location.getPlace();
 
-        boolean reserved = location.getReservation();
-
-        if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces || reserved)
+        if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces)
         {
             return false;
         }
 
         return true;
     }
+
+    //region Garage events
+    private List<GarageListener> eventListeners = new ArrayList<GarageListener>();
+
+    public void addListener(GarageListener listenerToAdd)
+    {
+        eventListeners.add(listenerToAdd);
+    }
+
+    public void removeListener(GarageListener listenerToRemove)
+    {
+        eventListeners.remove(listenerToRemove);
+    }
+
+    public interface GarageListener
+    {
+        void CarEntered(Car car);
+
+        void CarExited(Car car);
+    }
+    //endregion
 }

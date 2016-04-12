@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * Created by wout on 4/6/2016.
+ * Class used to calculate and store financial data.
+ * @author Wout Feringa, Donovan Meijer
+ * @version 1.0
  */
 public class Finance
 {

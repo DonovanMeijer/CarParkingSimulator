@@ -11,9 +11,9 @@ import CarParkingSimulator.Model.*;
  */
 public class HistogramView extends AbstractView
 {
-    public Color[] colors = new Color[7];
-    public int[] revenue = new int[7];
-    public String[] days = new String[7];
+    private Color[] colors = new Color[7];
+    private int[] revenue = new int[7];
+    private String[] days = new String[7];
 
     private int amountOfBars;
     private double maxValue;
@@ -27,7 +27,7 @@ public class HistogramView extends AbstractView
     private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
 
-    /** Setting up the Histogram with the amount of revenue, colors and name of days.
+    /** Sourceting up the Histogram with the amount of revenue, colors and name of days.
      */
     public HistogramView(Garage garage)
     {
@@ -70,11 +70,13 @@ public class HistogramView extends AbstractView
     public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D) g;
+
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2.setColor(Color.WHITE);
         g2.fillRect(padding + labelPadding, padding, getWidth() - (2 * padding) - labelPadding, getHeight() - 2 * padding - labelPadding);
         g2.setColor(Color.BLACK);
+
         int width = getWidth();
         int height = getHeight();
 

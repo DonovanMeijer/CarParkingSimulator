@@ -1,7 +1,9 @@
 package CarParkingSimulator.Model;
 
 /**
- * Created by John on 11/04/16.
+ * A (static) class containing the simulators time and logic.
+ * @author Donovan Meijer
+ * @version 1.0
  */
 public class SimulatorTime
 {
@@ -32,5 +34,10 @@ public class SimulatorTime
         {
             day -= 7;
         }
+    }
+
+    public static String getReadableDate()
+    {
+        return new String();
     }
 }

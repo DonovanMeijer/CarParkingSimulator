@@ -70,8 +70,11 @@ public class TextView extends AbstractView
         g2.drawString("Total amount of normal cars: " + normalCars.size(), 20, 40);
         g2.drawString("Total amount of pass holder cars: " + passHolderCars.size(),20, 60);
         g2.drawString("Total Amount of cars: " + (normalCars.size() + passHolderCars.size()), 20 ,20);
-        g2.drawString("People in queue at the entrance: " + simulatorEngine.getEntranceCarQueue().getQueue().size(),20, 80);
-        g2.drawString("People in queue at the ticket machine: " + simulatorEngine.getPaymentCarQueue().getQueue().size() ,20, 100);
-        g2.drawString("People in queue at the exit: " + simulatorEngine.getExitCarQueue().getQueue().size() ,20, 120);
+        g2.drawString("People in queue at the entrance: " + simulatorEngine.getEntranceCarQueue().getAmount(),20, 80);
+        g2.drawString("People in queue at the ticket machine: " + simulatorEngine.getPaymentCarQueue().getAmount() ,20, 100);
+        g2.drawString("People in queue at the exit: " + simulatorEngine.getExitCarQueue().getAmount() ,20, 120);
+
+        g2.drawString("Expected revenue from cars currently in garage: " + garage.getFinances().getRevenueProjection() ,20, 140);
+
     }
 }

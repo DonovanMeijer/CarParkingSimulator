@@ -1,21 +1,28 @@
 package CarParkingSimulator.View;
 
+import CarParkingSimulator.Model.DataSources.*;
 import CarParkingSimulator.Model.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public class PieView extends AbstractView
+/**
+ * Class containing logic for drawing a pie chart.
+ * @author Thom Boer, Wout Feringa, Donovan Meijer
+ * @version 1.0
+ */
+public class PieView extends DataView
 {
-    public ArrayList<Car> normalCars;
-    public ArrayList<Car> passHolderCars;
-
     private Dimension size;
 
-    public PieView(Garage garage)
+    private int totalAmountOfSpaces;
+
+    public PieView(Garage garage, DataSource dataSource)
     {
-        super(garage);
+        super(garage, dataSource);
+
         size = new Dimension(0, 0);
+
+        totalAmountOfSpaces = garage.getTotalAmountOfParkingPlaces();
     }
 
     public void updateView()
@@ -24,9 +31,7 @@ public class PieView extends AbstractView
         {
             size.getSize();
         }
-        normalCars = new ArrayList<Car>();
-        passHolderCars = new ArrayList<Car>();
-        checkAllLocations();
+
         repaint();
     }
 
@@ -35,69 +40,51 @@ public class PieView extends AbstractView
         return new Dimension(800, 500);
     }
 
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g)
+    {
+        double[] data = dataSource.getDataSource();
+
         Dimension currentSize = getSize();
+
         g.setColor(Color.WHITE);
+
         g.fillRect(0, 0, currentSize.width, currentSize.height);
 
-        if(passHolderCars.size() > 0 || normalCars.size() > 0) {
-
-            int passHolder = passHolderCars.size();
-            int normal = normalCars.size();
-            int totalPlaces = garage.getTotalAmountOfParkingPlaces();
-            int totalAmount = passHolder + normal + totalPlaces;
-            System.out.println(currentSize);
-
+        if(data[0] > 0 || data[1] > 0)
+        {
+            int totalAmount = totalAmountOfSpaces;
             int circleDiameter = 0;
+
             if(currentSize.height > currentSize.width)
             {
-                circleDiameter = (int) (currentSize.width * 0.8);
+                circleDiameter = (int)(currentSize.width * 0.9);
             }
             else
             {
-                circleDiameter = (int) (currentSize.height * 0.8);
+                circleDiameter = (int)(currentSize.height * 0.9);
             }
 
-            int passHolderAngle = (int) ((360 * passHolder) / totalAmount);
-            int normalAngle = (int) ((360 * normal) / totalAmount);
-            g.setColor(Color.WHITE);
-            g.fillArc(10, 10, circleDiameter, circleDiameter, 0, 360);
-            g.setColor(Color.RED);
+            int normalAngle = (int)((360 * data[0]) / totalAmount);
+            int passHolderAngle = (int)((360 * data[1]) / totalAmount);
             int angle = 0;
-            g.fillArc(10, 10, circleDiameter, circleDiameter, 0, normalAngle);
+
             angle += normalAngle;
+
+            g.setColor(Color.WHITE);
+
+            g.fillArc(10, 10, circleDiameter, circleDiameter, 0, 360);
+
+            g.setColor(Color.RED);
+
+            g.fillArc(10, 10, circleDiameter, circleDiameter, 0, normalAngle);
+
             g.setColor(Color.BLUE);
-            g.fillArc(10, 10, circleDiameter, circleDiameter, angle, (angle + passHolderAngle));
+
+            g.fillArc(10, 10, circleDiameter, circleDiameter, angle, passHolderAngle);
+
             g.setColor(Color.BLACK);
+
             g.drawOval(10,10,circleDiameter, circleDiameter);
         }
     }
-
-    public void checkAllLocations()
-    {
-        for (int floor = 0; floor < garage.getNumberOfFloors(); floor++)
-        {
-            for (int row = 0; row < garage.getNumberOfRows(); row++)
-            {
-                for (int place = 0; place < garage.getNumberOfPlaces(); place++)
-                {
-                    Location location = new Location(floor, row, place);
-
-                    if (garage.getCarAt(location) != null)
-                    {
-                        Car car = garage.getCarAt(location);
-                        if(car instanceof NormalCar)
-                        {
-                            normalCars.add(car);
-                        }
-                        else if (car instanceof PassHolderCar)
-                        {
-                            passHolderCars.add(car);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 }

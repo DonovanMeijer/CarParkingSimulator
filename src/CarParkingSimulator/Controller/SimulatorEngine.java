@@ -4,22 +4,17 @@ import CarParkingSimulator.Model.*;
 
 import java.util.*;
 
+/**
+ * Class containing logic for the simulation.
+ * @author Donovan Meijer
+ * @version 1.0
+ */
 public class SimulatorEngine
 {
     private Garage garage;
 
     private Timer timer;
     private SimulationTimerTask simulationTimerTask;
-
-    private SimulatorState currentState;
-
-    public enum SimulatorState
-    {
-        NotActive,
-        Running,
-        Paused,
-        Finished
-    }
 
     private class SimulationTimerTask extends TimerTask
     {
@@ -66,8 +61,6 @@ public class SimulatorEngine
     public SimulatorEngine(Garage garage)
     {
         this.garage = garage;
-
-        currentState = SimulatorState.NotActive;
 
         randomNumberGenerator = new Random();
 

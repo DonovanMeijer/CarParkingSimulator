@@ -1,14 +1,17 @@
 package CarParkingSimulator.View;
 
-//import CarParkingSimulator.Controller.GarageHelper;
 import CarParkingSimulator.Model.*;
-import CarParkingSimulator.Controller.DataSets.DailyRevenueDataSet;
-import CarParkingSimulator.Controller.DataSets.DataSet;
+import CarParkingSimulator.Model.DataSources.DataSource;
 
 import java.awt.*;
 import java.util.*;
 
-public class GraphView extends AbstractView
+/**
+ * Class containing logic for drawing a line graph.
+ * @author Wout Feringa, Donovan Meijer
+ * @version 1.0
+ */
+public class GraphView extends DataView
 {
     private static final Stroke GRAPH_STROKE = new BasicStroke(3f);
 
@@ -21,13 +24,9 @@ public class GraphView extends AbstractView
     private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
 
-    private static DataSet dataSet;
-
-    public GraphView(Garage garage)
+    public GraphView(Garage garage, DataSource dataSource)
     {
-        super(garage);
-
-        dataSet = new DailyRevenueDataSet(garage);
+        super(garage, dataSource);
     }
 
     public Dimension getPreferredSize()
@@ -42,7 +41,7 @@ public class GraphView extends AbstractView
 
     public void paintComponent(Graphics graphics)
     {
-        double[] data = dataSet.getDataSet();
+        double[] data = dataSource.getDataSource();
 
         Graphics2D graphics2D = (Graphics2D)graphics;
 
@@ -168,6 +167,6 @@ public class GraphView extends AbstractView
 
     private double getMaxValue()
     {
-        return dataSet.getHighestValue();
+        return dataSource.getHighestValue();
     }
 }

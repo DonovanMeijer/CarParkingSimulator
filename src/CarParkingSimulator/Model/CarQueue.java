@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class CarQueue
 {
-    private Queue<Car> queue = new LinkedList<Car>();
+    private LinkedList<Car> queue = new LinkedList<Car>();
 
     /**
      * This method appends the specified element to the end of this list.
@@ -25,5 +25,8 @@ public class CarQueue
         return queue.poll();
     }
 
-    public Queue<Car> getQueue() { return queue;}
+    public int getAmount()
+    {
+        return queue.size();
+    }
 }

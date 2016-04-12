@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 import CarParkingSimulator.Controller.*;
+import CarParkingSimulator.Model.DataSources.CarTypeDataSource;
+import CarParkingSimulator.Model.DataSources.CumulativeRevenueDataSource;
+import CarParkingSimulator.Model.DataSources.DailyRevenueDataSource;
 import CarParkingSimulator.Model.*;
 
 public class SimulatorWindow extends JFrame
@@ -18,10 +21,14 @@ public class SimulatorWindow extends JFrame
     private JButton hundredStepButton;
 
     private ParkingView parkingGarageView;
-    private GraphView graphView;
+
+    private GraphView cumulativeRevenueGraphView;
+    private GraphView dailyRevenueGraphView;
+
     private HistogramView histogramView;
     private TextView textView;
-    private PieView pieView;
+
+    private PieView carTypePieView;
 
     private JLabel stepLabel;
 
@@ -40,10 +47,15 @@ public class SimulatorWindow extends JFrame
         });
 
         parkingGarageView = new ParkingView(garage);
-        graphView = new GraphView(garage);
+
+        cumulativeRevenueGraphView = new GraphView(garage, new CumulativeRevenueDataSource(garage));
+        dailyRevenueGraphView = new GraphView(garage, new DailyRevenueDataSource(garage));
+
         histogramView = new HistogramView(garage);
         textView = new TextView(garage, simulatorEngine);
-        pieView = new PieView(garage);
+
+        carTypePieView = new PieView(garage, new CarTypeDataSource(garage));
+
         stepLabel = new JLabel();
 
         oneStepButton = new JButton("One step");
@@ -54,7 +66,7 @@ public class SimulatorWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                (new SimulationThread(Integer.MAX_VALUE)).start();
+                (new SimulationThread(1)).start();
             }
         });
 
@@ -86,11 +98,15 @@ public class SimulatorWindow extends JFrame
         centreGridPanel.setLayout(new GridLayout(1, 1));
         bottomGridPanel.setLayout(new GridLayout(1, 1));
 
-        tabControl.add("Parking View", parkingGarageView);
-        tabControl.add("Graph View", graphView);
+        tabControl.add("Parking garage view", parkingGarageView);
+
+        tabControl.add("Cumulative revenue", cumulativeRevenueGraphView);
+        tabControl.add("Daily revenue", dailyRevenueGraphView);
+
+        tabControl.add("Car population", carTypePieView);
+
         tabControl.add("Histogram", histogramView);
         tabControl.add("Text View", textView);
-        tabControl.add("Pie View", pieView);
 
         centreGridPanel.add(tabControl);
         rightGridPanel.add(oneStepButton);
@@ -106,18 +122,21 @@ public class SimulatorWindow extends JFrame
         setVisible(true);
     }
 
-    public void updateView()
+    private void updateView()
     {
         stepLabel.setText(Integer.toString(SimulatorTime.step));
 
         parkingGarageView.updateView();
-        graphView.updateView();
+
+        cumulativeRevenueGraphView.updateView();
+        dailyRevenueGraphView.updateView();
+
         histogramView.updateView();
         textView.updateView();
-        pieView.updateView();
+        carTypePieView.updateView();
     }
 
-    public class SimulationThread extends Thread
+    private class SimulationThread extends Thread
     {
         private Thread thread;
         private int stepsToPerform;

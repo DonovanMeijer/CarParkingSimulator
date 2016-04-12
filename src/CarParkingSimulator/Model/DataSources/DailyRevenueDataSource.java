@@ -1,13 +1,13 @@
-package CarParkingSimulator.Controller.DataSets;
+package CarParkingSimulator.Model.DataSources;
 
 import CarParkingSimulator.Model.*;
 
 /**
  * Created by John on 11/04/16.
  */
-public class DailyRevenueDataSet extends RevenueDataSet
+public class DailyRevenueDataSource extends RevenueDataSource
 {
-    public DailyRevenueDataSet(Garage garage)
+    public DailyRevenueDataSource(Garage garage)
     {
         super(garage);
     }
