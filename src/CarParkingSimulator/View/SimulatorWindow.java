@@ -19,6 +19,7 @@ public class SimulatorWindow extends JFrame
 
     private ParkingView parkingGarageView;
     private GraphView graphView;
+    private HistogramView histogramView;
 
     private JLabel stepLabel;
 
@@ -38,6 +39,7 @@ public class SimulatorWindow extends JFrame
 
         parkingGarageView = new ParkingView(garage);
         graphView = new GraphView(garage);
+        histogramView = new HistogramView(garage);
 
         stepLabel = new JLabel();
 
@@ -83,6 +85,7 @@ public class SimulatorWindow extends JFrame
 
         tabControl.add("ParkingView", parkingGarageView);
         tabControl.add("GraphView", graphView);
+        tabControl.add("Histogram", histogramView);
 
         centreGridPanel.add(tabControl);
         rightGridPanel.add(oneStepButton);

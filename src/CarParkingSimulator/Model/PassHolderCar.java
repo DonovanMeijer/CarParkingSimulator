@@ -5,10 +5,6 @@ package CarParkingSimulator.Model;
  */
 public class PassHolderCar extends Car
 {
-    /*private Location location;
-    private int minutesLeft;
-    private int totalTime;*/
-
     public PassHolderCar()
     {
 
